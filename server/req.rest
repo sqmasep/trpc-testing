@@ -1,0 +1,6 @@
+POST http://localhost:3001/trpc/user.create?batch=1
+Content-Type: application/json
+
+{
+    "username": "jar"
+}
