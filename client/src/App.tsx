@@ -6,9 +6,11 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { trpc } from "./trpc";
 import { httpBatchLink } from "@trpc/client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "./index.css";
 
 const theme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
       main: "#02A4FF",
     },

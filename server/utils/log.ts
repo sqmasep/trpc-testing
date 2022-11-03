@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-type Message = string;
+type Message = unknown;
 
 const bold = chalk.bold;
 const indicator = (i: string) => bold(`[${i}]`);
@@ -12,11 +12,15 @@ log.error = (msg: Message) => {
 };
 
 log.success = (msg: Message) => {
-  console.log(chalk.greenBright(chalk.bgGreenBright(indicator("‼")), msg));
+  console.log(chalk.greenBright(chalk.bgGreenBright(indicator("✓")), msg));
 };
 
 log.info = (msg: Message) => {
   console.info(chalk.blueBright(chalk.bgBlueBright(indicator("i")), msg));
 };
+
+log.SERVER = "SERVER";
+log.MONGODB = "MongoDB";
+log.BCRYPT = "bcrypt";
 
 export default log;

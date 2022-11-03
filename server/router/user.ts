@@ -1,34 +1,26 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure } from "../lib/trpc";
 import { z } from "zod";
-
-interface User {
-  id: number;
-  auth: boolean;
-  username: string;
-  numberOfFriends: number;
-}
-
-const users: User[] = [];
+import User from "../schemas/User";
+import bcrypt from "bcrypt";
+import { user } from "../formSchemas";
+import log from "../utils/log";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = router({
   create: publicProcedure
-    .input(
-      z.object({
-        username: z.string({ invalid_type_error: "mauvais type :(" }),
-      })
-    )
-    .mutation(({ input: { username } }) => {
-      users.push({
-        id: users.length + 1,
-        auth: true,
-        username,
-        numberOfFriends: 0,
-      });
-      console.log("pushed");
-      console.log(users);
-      return `inséré ${username}`;
+    .input(user.schema)
+    .mutation(async ({ input: { username, password } }) => {
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await User.create({ username, password: hashedPassword });
+        log.success("User created successfully");
+        return `inséré ${username}`;
+      } catch (error) {
+        log.error(error);
+      }
     }),
-  getUser: publicProcedure.input(z.number().positive()).query(({ input }) => {
-    return users.find(u => u.id === input);
+  getUser: publicProcedure.input(z.string()).query(({ input }) => {
+    return User.findById(input);
   }),
 });
