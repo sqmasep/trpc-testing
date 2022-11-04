@@ -33,16 +33,7 @@ const Home: React.FC = () => {
   });
 
   const mutation = trpc.user.create.useMutation({
-    // onSuccess: () => true,
-    // onError: ({ message }) => {
-    //   console.error("error!!!!!:(-");
-    //   console.log("message: ", message);
-    //   console.log(JSON.parse(e.message)[0].path[0]);
-    //   const message = JSON.parse(e.message)[0];
-    //   setErrors({
-    //     [message.path[0]]: message.message,
-    //   });
-    // },
+    onSuccess: () => console.log("%cSuccess", "color: green"),
   });
 
   return (
@@ -75,7 +66,9 @@ const Home: React.FC = () => {
               >
                 add
               </LoadingButton>
-              <pre>{JSON.stringify(mutation.error?.message, null, 2)}</pre>
+              {mutation.isSuccess
+                ? mutation.data
+                : mutation.error && mutation.error?.message}
             </Form>
           );
         }}

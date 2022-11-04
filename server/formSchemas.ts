@@ -11,6 +11,7 @@ const defaultErrors = {
 };
 
 const password = z.string(defaultErrors).min(8);
+const username = z.string(defaultErrors);
 
 export const user = {
   initialValues: {
@@ -20,7 +21,7 @@ export const user = {
   },
   schema: z
     .object({
-      username: z.string(defaultErrors),
+      username: username,
       password: password,
       confirmPassword: password,
     })
@@ -28,4 +29,13 @@ export const user = {
       message: "Password don't match!",
       path: ["confirmPassword"],
     }),
+};
+
+export const getUser = {
+  initialValues: {
+    username: "",
+  },
+  schema: z.object({
+    username: username,
+  }),
 };

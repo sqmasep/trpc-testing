@@ -11,7 +11,6 @@ const PORT = 3001;
 const LAG = 250;
 
 import { userRouter } from "./router/user";
-import User from "./schemas/User";
 
 const myMiddleware = middleware(({ ctx, next }) => {
   console.log("ctx: ", ctx);
@@ -73,4 +72,6 @@ app.get("/", (req, res) => {
 });
 
 initDb();
-app.listen(PORT, () => log.info(`${log.SERVER}: listening at port ${PORT}`));
+app.listen(PORT, () =>
+  log.info(`<init> ${log.SERVER}: listening at port ${PORT}`)
+);
